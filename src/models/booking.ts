@@ -1,6 +1,7 @@
 import { Schema, model, Document, Model } from "mongoose";
-import { IUser, UserType, findUserById } from "./user";
-import { RouteType, IRoute, findRouteById } from "./route";
+import { IUser, findUserById, UserPromise } from "./user";
+import { IRoute, findRouteById, RoutePromise } from "./route";
+import { dateToString } from "../helpers/date";
 
 export interface IBooking extends Document {
   route: IRoute;
@@ -9,28 +10,28 @@ export interface IBooking extends Document {
 
 export type BookingType = {
   _id: string;
-  route: Promise<RouteType>;
-  user: Promise<UserType>;
+  route: RoutePromise;
+  user: UserPromise;
   createdAt: string;
   updatedAt: string;
 };
 
-export type BookingPromiseType = Promise<BookingType>;
-export type AllBookingsPromiseType = Promise<BookingType[]>;
+export type BookingPromise = Promise<BookingType>;
+export type AllBookingsPromise = Promise<BookingType[]>;
 
 const bookingValueMapper = (booking: IBooking): BookingType => {
   const fullBooking: any = { ...booking };
 
   return {
     _id: booking.id,
-    route: findRouteById(booking.route._id),
-    user: findUserById(booking.user._id),
-    createdAt: new Date(fullBooking._doc.createdAt).toISOString(),
-    updatedAt: new Date(fullBooking._doc.updatedAt).toISOString(),
+    route: findRouteById.bind(this, booking.route._id),
+    user: findUserById.bind(this, booking.user._id),
+    createdAt: dateToString(fullBooking._doc.createdAt),
+    updatedAt: dateToString(fullBooking._doc.updatedAt),
   };
 };
 
-export const findAllBookings: () => AllBookingsPromiseType = async () => {
+export const findAllBookings: () => AllBookingsPromise = async () => {
   try {
     const bookings = await BookingModel.find();
     return bookings.map((booking) => {
@@ -41,9 +42,9 @@ export const findAllBookings: () => AllBookingsPromiseType = async () => {
   }
 };
 
-export const findAllRoutesByIds: (
+export const findAllBookingsByIds: (
   ids: string[]
-) => AllBookingsPromiseType = async (ids: string[]) => {
+) => AllBookingsPromise = async (ids: string[]) => {
   try {
     const bookings = await BookingModel.find({ _id: { $in: ids } });
     return bookings.map((booking) => {
@@ -54,7 +55,7 @@ export const findAllRoutesByIds: (
   }
 };
 
-export const findBookingById: (id: string) => BookingPromiseType = async (
+export const findBookingById: (id: string) => BookingPromise = async (
   id: string
 ) => {
   try {

@@ -1,18 +1,31 @@
 {
-  "include": ["./src/**/*"],
+  "include": ["src/**/*", "src/**/*.ts", "src/**/*.tsx"],
   "compilerOptions": {
-    "target": "es5",
     "module": "commonjs",
-    "lib": ["ES6"],
-    "moduleResolution": "node",
-    "outDir": "build",
-    "rootDir": "src",
-    "allowJs": true,
-    "sourceMap": true,
     "esModuleInterop": true,
-    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2020", // or newer if your node.js version supports this
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    // "noImplicitThis": true,
+    // "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "skipLibCheck": true,
+    "noFallthroughCasesInSwitch": true,
+    "composite": false,
     "noImplicitAny": true,
-    "resolveJsonModule": true
-  },
-  "lib": ["es2015"]
+    "moduleResolution": "node",
+    "lib": ["dom", "es2018", "esnext.asynciterable"],
+    "sourceMap": true,
+    "emitDecoratorMetadata": true,
+    "strict": false,
+    "experimentalDecorators": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "baseUrl": ".",
+    "paths": {
+      "*": ["node_modules/*", "app/types/*"]
+    }
+  }
 }

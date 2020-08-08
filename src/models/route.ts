@@ -1,5 +1,7 @@
 import { Schema, Document, model, Model } from "mongoose";
-import { IUser, findUserById } from "./user";
+import { IUser, findUserById, UserPromise } from "./user";
+import { IBooking, findAllBookingsByIds, AllBookingsPromise } from "./booking";
+import { dateToString } from "../helpers/date";
 
 export interface IRoute extends Document {
   from: string;
@@ -8,19 +10,21 @@ export interface IRoute extends Document {
   date: Date;
   places: number;
   creator: IUser;
+  bookings: IBooking[];
 }
 export type RouteType = {
-  _id: any;
+  _id: string;
   from: string;
   to: string;
   price: number;
   date: string;
   places: number;
-  creator: any;
+  creator: UserPromise;
+  bookings: AllBookingsPromise;
 };
 
-export type RoutePromiseType = Promise<RouteType>;
-export type AllRoutesPromiseType = Promise<RouteType[]>;
+export type RoutePromise = Promise<RouteType>;
+export type AllRoutesPromise = Promise<RouteType[]>;
 
 const routeValueMapper = (route: IRoute): RouteType => {
   return {
@@ -28,13 +32,17 @@ const routeValueMapper = (route: IRoute): RouteType => {
     from: route.from,
     to: route.to,
     price: route.price,
-    date: new Date(route.date).toISOString(),
+    date: dateToString(route.date),
     places: route.places,
-    creator: findUserById(route.creator._id),
+    creator: findUserById.bind(this, route.creator._id),
+    bookings: findAllBookingsByIds.bind(
+      this,
+      route.bookings.map((booking) => booking._id)
+    ),
   };
 };
 
-export const findAllRoutes: () => AllRoutesPromiseType = async () => {
+export const findAllRoutes: () => AllRoutesPromise = async () => {
   try {
     const routes = await RouteModel.find();
     return routes.map((route) => {
@@ -45,9 +53,9 @@ export const findAllRoutes: () => AllRoutesPromiseType = async () => {
   }
 };
 
-export const findAllRoutesByIds: (
+export const findAllRoutesByIds: (ids: string[]) => AllRoutesPromise = async (
   ids: string[]
-) => AllRoutesPromiseType = async (ids: string[]) => {
+) => {
   try {
     const routes = await RouteModel.find({ _id: { $in: ids } });
     return routes.map((route) => {
@@ -58,7 +66,7 @@ export const findAllRoutesByIds: (
   }
 };
 
-export const findRouteById: (id: string) => RoutePromiseType = async (
+export const findRouteById: (id: string) => RoutePromise = async (
   id: string
 ) => {
   try {
@@ -80,6 +88,12 @@ const routeSchema: Schema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
+  bookings: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Booking",
+    },
+  ],
 });
 
 const RouteModel: Model<IRoute> = model<IRoute>("Route", routeSchema);

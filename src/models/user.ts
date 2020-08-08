@@ -1,5 +1,5 @@
 import { Schema, Document, Model, model } from "mongoose";
-import { IRoute, AllRoutesPromiseType, findAllRoutesByIds } from "./route";
+import { IRoute, AllRoutesPromise, findAllRoutesByIds } from "./route";
 
 export interface IUser extends Document {
   email: string;
@@ -11,14 +11,12 @@ export type UserType = {
   _id: any;
   email: string;
   password: null;
-  createdRoutes: AllRoutesPromiseType;
+  createdRoutes: AllRoutesPromise;
 };
 
-export type UserPromiseType = Promise<UserType>;
+export type UserPromise = Promise<UserType>;
 
-export const findUserById: (id: string) => UserPromiseType = async (
-  id: string
-) => {
+export const findUserById: (id: string) => UserPromise = async (id: string) => {
   const user = await UserModel.findById(id);
 
   if (!user) throw new Error("User for given Id does not exist!");
@@ -27,7 +25,8 @@ export const findUserById: (id: string) => UserPromiseType = async (
     _id: user.id,
     email: user.email,
     password: null,
-    createdRoutes: findAllRoutesByIds(
+    createdRoutes: findAllRoutesByIds.bind(
+      this,
       user.createdRoutes.map((route) => route._id)
     ),
   };

@@ -1,61 +1,25 @@
-import { buildSchema } from "graphql";
+import { gql } from "apollo-server-express";
 
-const graphqlSchema = buildSchema(`
-type Booking {
-  _id: ID!
-  route: Route!
-  user: User!
-  createdAt: String!
-  updatedAt: String!
-}
+import user from "./types/user";
+import route from "./types/route";
+import booking from "./types/booking";
 
-type Route {
-  _id: ID!
-  from: String!
-  to: String!
-  price: Float!
-  date: String!
-  places: Int!
-  creator: User!
-  bookings: [Booking!]!
-}
+const typeDefs = gql`
+  ${user}
+  ${route}
+  ${booking}
 
-type User {
-  _id: ID!
-  email: String!
-  password: String
-  createdRoutes: [Route!]!
-}
+  type Query {
+    routes: [Route!]!
+    bookings: [Booking!]!
+  }
 
-input RouteInput {
-  from: String!
-  to: String!
-  price: Float!
-  date: String!
-  places: Int!
-}
+  type Mutation {
+    createRoute(routeInput: RouteInput): Route
+    createUser(userInput: UserInput): User
+    bookRoute(routeId: ID!): Booking!
+    cancelBooking(bookingId: ID!): Route!
+  }
+`;
 
-input UserInput {
-  email: String!
-  password: String!
-}
-
-type RootQuery {
-  routes: [Route!]!
-  bookings: [Booking!]!
-}
-
-type RootMutation {
-  createRoute(routeInput: RouteInput): Route
-  createUser(userInput: UserInput): User
-  bookRoute(routeId: ID!): Booking!
-  cancelBooking(bookingId: ID!): Route!
-}
-
-schema {
-  query: RootQuery
-  mutation: RootMutation
-}
-`);
-
-export default graphqlSchema;
+export default typeDefs;
