@@ -4,12 +4,9 @@
     "module": "commonjs",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "target": "ES2020", // or newer if your node.js version supports this
+    "target": "ESNext",
     "strictNullChecks": true,
     "strictFunctionTypes": true,
-    // "noImplicitThis": true,
-    // "noUnusedLocals": true,
-    // "noUnusedParameters": true,
     "noImplicitReturns": true,
     "skipLibCheck": true,
     "noFallthroughCasesInSwitch": true,

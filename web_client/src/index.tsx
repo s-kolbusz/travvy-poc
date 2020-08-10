@@ -1,7 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+
+import './index.pcss';
 
 if (module.hot) {
   module.hot.accept();

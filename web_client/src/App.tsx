@@ -1,19 +1,28 @@
 import React from 'react';
-// import logo from './logo.svg';
+import { BrowserRouter, Route } from 'react-router-dom';
 
-const App: React.FC<{}> = () => {
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Trips from './pages/Trips';
+import Bookings from './pages/Bookings';
+
+const App: React.FC = () => {
   return (
-    <div>
-      <header>
-        {/* <img src={logo} className="App-logo" alt="logo" /> */}
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Route path="/login">
+        <Login />
+      </Route>
+      <Route path="/trips">
+        <Trips />
+      </Route>
+      <Route path="/bookings">
+        <Bookings />
+      </Route>
+
+      <Route path="/" exact>
+        <Home />
+      </Route>
+    </BrowserRouter>
   );
 };
 
