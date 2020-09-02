@@ -1,5 +1,5 @@
 import express from "express";
-import { ApolloServer, AuthenticationError } from "apollo-server-express";
+import { ApolloServer } from "apollo-server-express";
 import mongoose from "mongoose";
 
 import isAuth, { IsAuthRequest } from "./middleware/is-auth";
@@ -9,6 +9,16 @@ import resolvers from "./graphql/resolvers";
 
 const appPort = 3000;
 const app = express();
+
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST,GET,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+  return next();
+});
 
 app.use(isAuth);
 
