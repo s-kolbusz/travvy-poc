@@ -3,12 +3,12 @@ import { BrowserRouter, Route } from 'react-router-dom';
 
 import { AuthContextProvider } from './context/authContext';
 
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Trips from './pages/Trips';
-import Bookings from './pages/Bookings';
+import Home from './views/Home';
+import Login from './views/Login';
+import Trips from './views/Trips';
+import Bookings from './views/Bookings';
 
-import Nav from './components/Navigation/Nav';
+import Nav from './components/navigation';
 
 const App: React.FC = () => {
   return (
