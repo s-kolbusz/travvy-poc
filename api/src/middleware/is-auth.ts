@@ -11,8 +11,7 @@ export interface IsAuthRequest extends Request {
   userId: string;
 }
 
-const isAuth: RequestHandler = (request, res, next) => {
-  const req = request as IsAuthRequest;
+const isAuth: RequestHandler = (req, _, next) => {
 
   const authHeader = req.get("Authorization");
   if (!authHeader) {
