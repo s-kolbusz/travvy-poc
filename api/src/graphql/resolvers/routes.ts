@@ -1,10 +1,7 @@
-import RouteModel, {
-  findAllRoutes,
-  findRouteById,
-  IRoute,
-} from "../../models/route";
+import RouteModel, { IRoute } from "../../models/route";
 import UserModel from "../../models/user";
 import { dateToString } from "../../helpers/date";
+import { findAllRoutes, findRouteById } from "../../repositories/route";
 
 const queries = {
   routes: async () => {
@@ -29,7 +26,7 @@ const mutations = {
         to: routeInput.to,
         price: +routeInput.price,
         date: dateToString(routeInput.date),
-        places: routeInput.places,
+        amplitude: routeInput.amplitude,
         creator: userId,
       });
 

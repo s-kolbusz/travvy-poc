@@ -1,36 +1,13 @@
 import { Schema, Document, Model, model } from "mongoose";
-import { IRoute, AllRoutesPromise, findAllRoutesByIds } from "./route";
+import { IRoute } from "./route";
+import { ICar } from "./car";
 
 export interface IUser extends Document {
   email: string;
   password: string;
   createdRoutes: IRoute[];
+  ownedCars: ICar[];
 }
-
-export type UserType = {
-  _id: any;
-  email: string;
-  password: null;
-  createdRoutes: AllRoutesPromise;
-};
-
-export type UserPromise = Promise<UserType>;
-
-export const findUserById: (id: string) => UserPromise = async (id: string) => {
-  const user = await UserModel.findById(id);
-
-  if (!user) throw new Error("User for given Id does not exist!");
-
-  return {
-    _id: user.id,
-    email: user.email,
-    password: null,
-    createdRoutes: findAllRoutesByIds.bind(
-      this,
-      user.createdRoutes.map((route) => route._id)
-    ),
-  };
-};
 
 const userSchema = new Schema({
   email: {
@@ -46,6 +23,12 @@ const userSchema = new Schema({
     {
       type: Schema.Types.ObjectId,
       ref: "Route",
+    },
+  ],
+  ownedCars: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Car",
     },
   ],
 });

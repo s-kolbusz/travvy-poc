@@ -1,9 +1,7 @@
-import BookingModel, {
-  findAllBookings,
-  findBookingById,
-} from "../../models/booking";
+import BookingModel from "../../models/booking";
 import UserModel from "../../models/user";
 import RouteModel from "../../models/route";
+import { findAllBookings, findBookingById } from "../../repositories/booking";
 
 const queries = {
   bookings: async (_: any, __: any, { userId }: { userId: string }) => {
