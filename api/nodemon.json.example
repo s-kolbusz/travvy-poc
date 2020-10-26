@@ -1,0 +1,12 @@
+{
+  "watch": [
+    "src"
+  ],
+  "ext": ".ts,.js",
+  "exec": "ts-node ./src/app.ts",
+  "env": {
+    "MONGO_USER": "user",
+    "MONGO_PASSWORD": "password",
+    "MONGO_DB": "mongo-db-name"
+  }
+}
