@@ -14,7 +14,7 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <AuthContextProvider>
-        <header>
+        <header className="bg-amber-300">
           <Nav />
         </header>
         <main className="flex flex-1">

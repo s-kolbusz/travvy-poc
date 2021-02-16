@@ -1,11 +1,12 @@
-const shouldPurge = process.env.NODE_ENV !== 'local';
+const colors = require('tailwindcss/colors');
 
 module.exports = {
+  darkMode: 'class',
   theme: {
+    colors: {
+      ...colors,
+    },
     extend: {},
   },
-  purge: {
-    enabled: false,
-    content: ['./src/**/*.tsx', './src/**/*.js'],
-  },
+  purge: ['./src/**/*.tsx', './src/**/*.js'],
 };

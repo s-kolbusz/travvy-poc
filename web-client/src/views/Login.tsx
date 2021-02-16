@@ -1,7 +1,6 @@
 import React from 'react';
-
-import { Input } from 'travvy/components/form/Fields';
-import { useAuthContext } from 'travvy/context/authContext';
+import { useAuthContext } from '../context/authContext';
+import { Input } from '../components/form/Fields';
 
 const Login = () => {
   const [error, setError] = React.useState<{ field: string; message: string }>();
