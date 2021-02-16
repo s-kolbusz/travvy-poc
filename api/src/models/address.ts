@@ -6,8 +6,6 @@ export interface IAddress extends Document {
   city: string;
   street: string;
   number: string;
-  booking: IBooking;
-  user: IUser;
 }
 
 const addressSchema = new Schema(
@@ -24,17 +22,9 @@ const addressSchema = new Schema(
       type: Schema.Types.String,
       required: true,
     },
-    booking: {
-      type: Schema.Types.ObjectId,
-      ref: "Booking",
-    },
-    user: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    },
   },
   { timestamps: true }
 );
 
-const AddressModel: Model<IAddress> = model<IAddress>("Booking", addressSchema);
+const AddressModel: Model<IAddress> = model<IAddress>("Address", addressSchema);
 export default AddressModel;
