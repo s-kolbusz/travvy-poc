@@ -1,8 +1,8 @@
 import React from 'react';
-import { useAuthContext } from '../context/authContext';
-import { Input } from '../components/form/Fields';
+import { useAuthContext } from '../../context/authContext';
+import { Input } from '../../components/form/Fields';
 
-const Login = () => {
+const UserLogin = () => {
   const [error, setError] = React.useState<{ field: string; message: string }>();
   const [values, setValues] = React.useState<{ email: string; password: string }>({ email: '', password: '' });
   const [loggedIn, setLoggedIn] = React.useState<{ isAuth: boolean; user?: string }>({ isAuth: false });
@@ -114,4 +114,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default UserLogin;
