@@ -5,6 +5,8 @@ import { AuthContextProvider } from './context/authContext';
 
 import Home from './views/Home';
 import Login from './views/Login';
+import UserLogin from './views/Login/UserLogin';
+import Administration from './views/Login/Administration';
 import Trips from './views/Trips';
 import Bookings from './views/Bookings';
 
@@ -14,24 +16,46 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <AuthContextProvider>
-        <header>
-          <Nav />
-        </header>
-        <main className="flex flex-1">
-          <Route path="/login">
+        <Route path="/login" exact>
+          <header>
+            <Nav />
+          </header>
+          <main className="flex flex-1">
             <Login />
-          </Route>
-          <Route path="/trips">
+          </main>
+        </Route>
+        <Route path="/trips">
+          <header>
+            <Nav />
+          </header>
+          <main className="flex flex-1">
             <Trips />
-          </Route>
-          <Route path="/bookings">
+          </main>
+        </Route>
+        <Route path="/bookings">
+          <header>
+            <Nav />
+          </header>
+          <main className="flex flex-1">
             <Bookings />
-          </Route>
+          </main>
+        </Route>
 
-          <Route path="/" exact>
+        <Route path="/" exact>
+          <header>
+            <Nav />
+          </header>
+          <main className="flex flex-1">
             <Home />
-          </Route>
-        </main>
+          </main>
+        </Route>
+
+        <Route path="/login/administration">
+          <Administration />
+        </Route>
+        <Route path="/login/user">
+          <UserLogin />
+        </Route>
       </AuthContextProvider>
     </BrowserRouter>
   );
